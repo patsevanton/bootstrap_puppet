@@ -23,6 +23,6 @@ esac
 #mkdir -p /root/bootstrap/modules
 #puppet module install --modulepath=/root/bootstrap/modules puppetlabs/puppet_agent
 
-/opt/puppetlabs/bin/puppet agent -t --server client-dev.puppet.uib.no --waitforcert 60 --masterport 8140 --report true
+/opt/puppetlabs/bin/puppet agent -t --server=client-dev.puppet.uib.no --waitforcert=60 --masterport=8140
 
 exit 0
