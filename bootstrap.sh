@@ -1,9 +1,11 @@
 #!/bin/bash
 
-if /usr/bin/which yum 2>/dev/null; then
+if cat /etc/os-release |grep -q -i "redhat|centos"
     DIST="RedHat"
-elif /usr/bin/which apt 2>/dev/null; then
-    DIST="Debian"
+    yum install -y redhat-lsb
+elif cat /etc/os-release |grep -q -i "debian"
+    DIST="Ubuntu"
+    apt install -y lsb-release
 else
     DIST="Unknown"
 fi
