@@ -1,9 +1,17 @@
 #!/bin/bash
 
+if /usr/bin/which yum 2>/dev/null; then
+    DIST="RedHat"
+elif /usr/bin/which apt 2>/dev/null; then
+    DIST="Debian"
+else
+    DIST="Unknown"
+fi
+
 # Install puppet from puppetlabs
-case $(lsb_release -si) in
+case "$DIST" in
     Ubuntu)
-        if !$(dpkg -l|grep -q puppetlabs-release-pc1); then
+        if ! dpkg -l|grep -q puppetlabs-release-pc1; then
             wget -P /tmp https://apt.puppetlabs.com/puppetlabs-release-pc1-"$(lsb_release -sc)".deb
             dpkg -i /tmp/puppetlabs-release-pc1-"$(lsb_release -sc)".deb
             apt update
@@ -11,7 +19,7 @@ case $(lsb_release -si) in
         dpkg -l|grep -q puppet-agent ||apt install -y puppet-agent
         ;;
     CentOS|RedHat)
-        if ! $(yum list installed |grep -q puppetlabs-release-pc1); then
+        if ! yum list installed |grep -q puppetlabs-release-pc1; then
             rpm -Uvh https://yum.puppetlabs.com/puppetlabs-release-pc1-el-"$(lsb_release -sr|cut -d'.' -f1)".noarch.rpm
         fi
         yum list installed |grep -q puppet-agent || yum install -y puppet-agent
