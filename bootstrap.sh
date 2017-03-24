@@ -34,6 +34,6 @@ esac
 
 mkdir -p /root/bootstrap/modules
 /opt/puppetlabs/bin/puppet module install --modulepath=/root/bootstrap/modules theforeman/puppet
-/opt/puppetlabs/bin/puppet apply --modulepath=/root/bootstrap/modules "${PWD}"/install.pp
+/opt/puppetlabs/bin/puppet apply --modulepath=/root/bootstrap/modules "${PWD}"/agent.pp
 
 exit 0
