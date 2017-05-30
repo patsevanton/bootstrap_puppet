@@ -1,4 +1,0 @@
-before_script:
-  - export DEBIAN_FRONTEND=noninteractive
-  - export NOKOGIRI_USE_SYSTEM_LIBRARIES=true
-  - apt-get -qq update
