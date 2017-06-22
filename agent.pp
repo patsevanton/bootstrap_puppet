@@ -2,17 +2,18 @@ class { 'puppet':
   server         => false,
   server_foreman => false,
   agent          => true,
-  puppetmaster   => 'client-dev.puppet.uib.no',
+  puppetmaster   => 'puppetserver01.uib.no',
+  ca_server      => 'puppetca.uib.no,'
 }
 
-package {'uib-puppetnode':
-  ensure => absent,
-}
-
-package { 'puppet-common':
-  ensure => absent,
-}
-
-package { 'puppet':
-  ensure => absent,
-}
+#package {'uib-puppetnode':
+#  ensure => absent,
+#}
+#
+#package { 'puppet-common':
+#  ensure => absent,
+#}
+#
+#package { 'puppet':
+#  ensure => absent,
+#}
