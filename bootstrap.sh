@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Where are we running from
+readonly PROGNAME=$(basename "$0")
+readonly PROGDIR=$(dirname "$(readlink -f "$0")")
+
 if egrep -q -i "redhat|centos" /etc/os-release; then
     DIST="RedHat"
     yum install -y redhat-lsb
@@ -32,8 +36,8 @@ case "$DIST" in
         ;;
 esac
 
-mkdir -p /root/bootstrap/modules
-/opt/puppetlabs/bin/puppet module install --modulepath=/root/bootstrap/modules theforeman/puppet
-/opt/puppetlabs/bin/puppet apply --modulepath=/root/bootstrap/modules /root/bootstrap_puppet/agent.pp
+/opt/puppetlabs/bin/puppet module install theforeman/puppet
+/opt/puppetlabs/bin/puppet apply "$PROGDIR"/agent.pp
+/opt/puppetlabs/bin/puppet module uninstall theforeman/puppet
 
 exit 0
