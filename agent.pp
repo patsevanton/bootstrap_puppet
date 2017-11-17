@@ -3,7 +3,7 @@ class { 'puppet':
   server_foreman => false,
   agent          => true,
   puppetmaster   => 'puppetserver01.uib.no',
-  ca_server      => 'puppetca.uib.no,'
+  ca_server      => 'puppetca.uib.no',
 }
 
 package {'uib-puppetnode':
