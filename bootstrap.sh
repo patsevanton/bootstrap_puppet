@@ -68,7 +68,6 @@ run_puppet() {
 }
 
 main() {
-    remove_puppet
     install_puppet
     run_puppet
 }
