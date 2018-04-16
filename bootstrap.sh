@@ -45,6 +45,10 @@ remove_puppet() {
                 DEBIAN_FRONTEND=noninteractive apt-get purge --yes --force-yes --auto-remove uib-puppetnode
             fi
             ;;
+        CentOS|RedHat)
+            if yum list installed |grep -q uib-puppetnode; then
+                yum remove -y uib-puppetnode
+            fi
         *)
             echo "$(lsb_release -si) is not supported."
             exit 1
@@ -65,9 +69,21 @@ run_puppet() {
     /opt/puppetlabs/bin/puppet module install theforeman/puppet
     /opt/puppetlabs/bin/puppet apply "$PROGDIR"/agent.pp
     #/opt/puppetlabs/bin/puppet module uninstall theforeman/puppet
+    clean_certs
+    FACTER_bootstrap=true puppet agent -t
+}
+
+clean_certs() {
+    if [ ! /root/clean_certs.sh  ]: then
+        wget http://preseed.unix.uib.no/ubuntu/restapi/clean_certs.sh
+    fi
+    chmod 700 /root/clean_certs.sh
+    /root/clean_certs.sh
+    rm -rf /etc/puppetlabs/puppet/ssl/*
 }
 
 main() {
+    remove_puppet
     install_puppet
     run_puppet
 }
