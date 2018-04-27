@@ -6,7 +6,7 @@ readonly PROGDIR=$(dirname "$(readlink -f "$0")")
 
 if egrep -q -i "redhat|centos" /etc/os-release; then
     DIST="RedHat"
-    yum install -y redhat-lsb
+    yum install -y redhat-lsb wget
 elif grep -q -i "debian" /etc/os-release ; then
     DIST="Ubuntu"
     apt install -y lsb-release
@@ -49,6 +49,7 @@ remove_puppet() {
             if yum list installed |grep -q uib-puppetnode; then
                 yum remove -y uib-puppetnode
             fi
+            ;;
         *)
             echo "$(lsb_release -si) is not supported."
             exit 1
@@ -74,7 +75,7 @@ run_puppet() {
 }
 
 clean_certs() {
-    if [ ! /root/clean_certs.sh  ]: then
+    if [ ! -f /root/clean_certs.sh  ]; then
         wget http://preseed.unix.uib.no/ubuntu/restapi/clean_certs.sh
     fi
     chmod 700 /root/clean_certs.sh
